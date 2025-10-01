@@ -30,6 +30,7 @@
 #include "exercise7.h"
 #include "exercise8.h"
 #include "exercise9.h"
+#include "exercise10.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -106,9 +107,9 @@ int main(void)
 	  //led7Seg_Traffic();		// Exercise 5
 	  //clockSequence();		// Exercise 6
 	  //clearAllClock();		// Exercise 7
-	  //setNumberOnClock(0);	// Exercise 8
-	  clearNumberOnClock(9);	// Exercise 9
-
+	  //setNumberOnClock(6);	// Exercise 8
+	  //clearNumberOnClock(9);	// Exercise 9
+	  simpleAnalogClock();	// Exercise 10
 	  HAL_Delay(1000);
     /* USER CODE END WHILE */
 

@@ -23,7 +23,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Core/Inc/exercise1.h ../Core/Inc/exercise2.h ../Core/Inc/exercise4.h \
  ../Core/Inc/exercise5.h ../Core/Inc/exercise6.h ../Core/Inc/exercise7.h \
- ../Core/Inc/exercise8.h ../Core/Inc/exercise9.h
+ ../Core/Inc/exercise8.h ../Core/Inc/exercise9.h ../Core/Inc/exercise10.h
 
 ../Core/Inc/main.h:
 
@@ -86,3 +86,5 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/exercise8.h:
 
 ../Core/Inc/exercise9.h:
+
+../Core/Inc/exercise10.h:
