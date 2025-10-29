@@ -512,7 +512,7 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 ./Core/Src/exercise5.o
  .data.hour     0x0000000000000000        0x4 ./Core/Src/exercise5.o
  .data.minute   0x0000000000000000        0x4 ./Core/Src/exercise5.o
- .bss.second    0x0000000000000000        0x4 ./Core/Src/exercise5.o
+ .data.second   0x0000000000000000        0x4 ./Core/Src/exercise5.o
  .text.updateClockBuffer
                 0x0000000000000000       0x80 ./Core/Src/exercise5.o
  .debug_info    0x0000000000000000      0x219 ./Core/Src/exercise5.o

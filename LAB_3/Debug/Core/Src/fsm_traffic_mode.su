@@ -1,0 +1,11 @@
+fsm_traffic_mode.c:32:6:config_leds	16	static
+fsm_traffic_mode.c:42:6:init_auto_mode	8	static
+fsm_traffic_mode.c:57:6:init_red_config_mode	8	static
+fsm_traffic_mode.c:70:6:init_amber_config_mode	8	static
+fsm_traffic_mode.c:83:6:init_green_config_mode	8	static
+fsm_traffic_mode.c:98:6:fsm_mode_auto	8	static
+fsm_traffic_mode.c:195:6:mode_red_config	8	static
+fsm_traffic_mode.c:212:6:mode_amber_config	8	static
+fsm_traffic_mode.c:230:6:mode_green_config	8	static
+fsm_traffic_mode.c:249:6:init_fsm_traffic_mode	8	static
+fsm_traffic_mode.c:255:6:fsm_traffic_mode	8	static

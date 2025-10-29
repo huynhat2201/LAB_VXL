@@ -10,8 +10,8 @@
 #include "exercise3.h"
 
 int hour =  23;
-int minute = 58;
-int second = 0;
+int minute = 59;
+int second = 55;
 
 void updateClockBuffer(){
 

@@ -443,8 +443,8 @@ int main(void)
  80003a0:	2110      	movs	r1, #16
  80003a2:	4816      	ldr	r0, [pc, #88]	; (80003fc <main+0xbc>)
  80003a4:	f000 fd22 	bl	8000dec <HAL_GPIO_TogglePin>
-	  			  update7SEG((index_led++) - 1);
-	  		  } */
+
+
 
 //============================================================
 	  	 // for Exercise 9 and 10

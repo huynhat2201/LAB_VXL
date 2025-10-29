@@ -118,35 +118,42 @@ int main(void)
 	  	  }
 
 	  	  // for Exercise 1, 2, 3, 4
-	  	/* if (timer_flag[2] == 1){	// change flag to 2 with exercise 4
-	  		  timer_flag[2] = 0;
-	  		  //setTimer(1, 50); // for Exercise 1, 2, 3
-	  		  setTimer(2, 25); // Exercise 4
+	  	 /*if (timer_flag[1] == 1){	// change flag to 2 with exercise 4
+	  		  timer_flag[1] = 0;
+	  		  setTimer(1, 50); // for Exercise 1, 2, 3
+	  		  //setTimer(2, 25); // Exercise 4
 	  		  //twoLed();	// Exercise 1
 	  		  //fourLed();	// Exercise 2
-	  		  update7SEG((index_led++) - 1); // Exercise 3, 4
+	  		  //update7SEG((index_led++) - 1); // Exercise 3, 4
 	  	  }*/
 
 //============================================================
 	  // for exercise 5
-	  /*	if (timer_flag[2] == 1){
-	  			  timer_flag[2] = 0;
-	  			  setTimer(2, 25); // Exercise
-	  			  second++;
-	  			  	  if (second >= 60){
-	  			  	  second = 0;
-	  			  	  minute++;
-	  			  	  }
+	  /*if (timer_flag[2] == 1){
+	  	  timer_flag[2] = 0;
+	  	  setTimer(2, 25);
+	  	  update7SEG((index_led++) - 1);
+	  }
 
-	  			  	  if (minute >= 60){
-	  			  	  minute = 0;
-	  			  	  hour++;
-	  			  	  }
-	  			  	  if (hour >= 24) hour = 0;
+	  if (timer_flag[0] == 1){
+	  	  timer_flag[0] = 0;
+	  	  setTimer(0, 100);
+	  	  second++;
+	  	  if (second >= 60){
+	  		  second = 0;
+	  		  minute++;
+	  	  }
 
-	  			  	  updateClockBuffer();
-	  			  update7SEG((index_led++) - 1);
-	  		  } */
+	  	  if (minute >= 60){
+	  		  minute = 0;
+	  		  hour++;
+	  	  }
+	  	  if (hour >= 24) hour = 0;
+
+	  	  updateClockBuffer();
+	  }*/
+
+
 
 //============================================================
 	  	 // for Exercise 9 and 10
@@ -167,7 +174,7 @@ int main(void)
 
 //============================================================
 
-	  	   // HAL_Delay(1000); // Only use for exercise 5
+	  	  //  HAL_Delay(1000); // Only use for exercise 5
 
     /* USER CODE END WHILE */
 
