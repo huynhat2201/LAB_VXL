@@ -1,0 +1,5 @@
+task.c:23:6:Task_GetKeyInput	8	static
+task.c:24:6:Task_TimerRun	8	static
+task.c:25:6:Task_7SEG_Scan	8	static
+task.c:26:6:Task_FSM_Traffic	8	static
+task.c:27:6:Task_FSM_Input	8	static

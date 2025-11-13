@@ -106,8 +106,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  fsm_input_processing();
+
 	  fsm_traffic_mode();
+	  fsm_input_processing();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -254,6 +255,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if (htim->Instance == TIM2) {
 	        timer_Run();
 	        button_reading();
+
 	    }
 }
 /* USER CODE END 4 */
