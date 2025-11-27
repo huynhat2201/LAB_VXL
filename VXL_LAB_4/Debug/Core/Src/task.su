@@ -1,5 +1,5 @@
-task.c:23:6:Task_GetKeyInput	8	static
-task.c:24:6:Task_TimerRun	8	static
-task.c:25:6:Task_7SEG_Scan	8	static
-task.c:26:6:Task_FSM_Traffic	8	static
-task.c:27:6:Task_FSM_Input	8	static
+task.c:11:6:LED1Blinky	8	static
+task.c:15:6:LED2Blinky	8	static
+task.c:19:6:LED3Blinky	8	static
+task.c:23:6:LED4Blinky	8	static
+task.c:27:6:LED5Blinky	8	static

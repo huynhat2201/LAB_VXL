@@ -22,10 +22,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "timer.h"
-#include "input_reading.h"
-#include "fsm_input_processing.h"
-#include "fsm_traffic_mode.h"
 #include "scheduler.h"
 #include "task.h"
 /* USER CODE END Includes */
@@ -95,30 +91,20 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
-
-  	init_SoftwareTimer(HAL_RCC_GetHCLKFreq(), // Return HCLK Frequency
-  					  htim2.Init.Prescaler,  // Return TIM2 Prescaler
-  					  htim2.Init.Period);	 // Return TIM2 Period
-
-  	init_fsm_traffic_mode();
-  	set_one_sec_timer();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
   	SCH_Init();
-  	SCH_Add_Task(Task_GetKeyInput, 0, 1);    // 10ms
-  	SCH_Add_Task(Task_TimerRun, 0, 1);    // 10ms (nếu bạn đang dùng timer_Run() để tạo flag 1s/blink)
-  	SCH_Add_Task(Task_7SEG_Scan, 0, 1);    // 10ms (quét led 7 đoạn mượt)
-  	SCH_Add_Task(Task_FSM_Traffic, 0, 100);  // 1000ms (giảm counter & chuyển pha)
-  	SCH_Add_Task(Task_FSM_Input, 0, 1);
+    SCH_Add_Task(LED1Blinky, 3000, 0);
+    SCH_Add_Task(LED2Blinky, 1000, 1000);
+    SCH_Add_Task(LED3Blinky, 1000, 2000);
+    SCH_Add_Task(LED4Blinky, 1000, 3000);
+    SCH_Add_Task(LED5Blinky, 1000, 4000);
+
   while (1)
   {
-
-	  //fsm_traffic_mode();
-	  //fsm_input_processing();
-	  SCH_Dispatch_Task();
+	  SCH_Dispatch_Tasks();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -170,8 +156,7 @@ static void MX_TIM2_Init(void)
 {
 
   /* USER CODE BEGIN TIM2_Init 0 */
-	HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
-	HAL_NVIC_EnableIRQ(TIM2_IRQn);
+
   /* USER CODE END TIM2_Init 0 */
 
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
@@ -218,55 +203,25 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LED_RED_1_Pin|LED_AMBER_1_Pin|LED_GREEN_1_Pin|LED_RED_2_Pin
-                          |LED_AMBER_2_Pin|LED_GREEN_2_Pin|EN0_Pin|EN1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LED1_Pin|LED2_Pin|LED3_Pin|LED4_Pin
+                          |LED5_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, SEG71_0_Pin|SEG71_1_Pin|SEG72_2_Pin|SEG72_3_Pin
-                          |SEG72_4_Pin|SEG72_5_Pin|SEG72_6_Pin|SEG71_2_Pin
-                          |SEG71_3_Pin|SEG71_4_Pin|SEG71_5_Pin|SEG71_6_Pin
-                          |SEG72_0_Pin|SEG72_1_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pins : INPUT_MODE_Pin INPUT_INCREASE_Pin INPUT_SET_Pin */
-  GPIO_InitStruct.Pin = INPUT_MODE_Pin|INPUT_INCREASE_Pin|INPUT_SET_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : LED_RED_1_Pin LED_AMBER_1_Pin LED_GREEN_1_Pin LED_RED_2_Pin
-                           LED_AMBER_2_Pin LED_GREEN_2_Pin EN0_Pin EN1_Pin */
-  GPIO_InitStruct.Pin = LED_RED_1_Pin|LED_AMBER_1_Pin|LED_GREEN_1_Pin|LED_RED_2_Pin
-                          |LED_AMBER_2_Pin|LED_GREEN_2_Pin|EN0_Pin|EN1_Pin;
+  /*Configure GPIO pins : LED1_Pin LED2_Pin LED3_Pin LED4_Pin
+                           LED5_Pin */
+  GPIO_InitStruct.Pin = LED1_Pin|LED2_Pin|LED3_Pin|LED4_Pin
+                          |LED5_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : SEG71_0_Pin SEG71_1_Pin SEG72_2_Pin SEG72_3_Pin
-                           SEG72_4_Pin SEG72_5_Pin SEG72_6_Pin SEG71_2_Pin
-                           SEG71_3_Pin SEG71_4_Pin SEG71_5_Pin SEG71_6_Pin
-                           SEG72_0_Pin SEG72_1_Pin */
-  GPIO_InitStruct.Pin = SEG71_0_Pin|SEG71_1_Pin|SEG72_2_Pin|SEG72_3_Pin
-                          |SEG72_4_Pin|SEG72_5_Pin|SEG72_6_Pin|SEG71_2_Pin
-                          |SEG71_3_Pin|SEG71_4_Pin|SEG71_5_Pin|SEG71_6_Pin
-                          |SEG72_0_Pin|SEG72_1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	if (htim->Instance == TIM2) {
-	        timer_Run();
-	        button_reading();
-	        SCH_Update();
-	    }
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+    SCH_Update();
 }
 /* USER CODE END 4 */
 

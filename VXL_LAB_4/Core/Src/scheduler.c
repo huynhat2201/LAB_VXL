@@ -1,69 +1,79 @@
 /*
  * scheduler.c
  *
- *  Created on: 13 thg 11, 2025
+ *  Created on: Nov 14, 2025
  *      Author: huynh
  */
 
-
 #include "scheduler.h"
+#include "task.h"
+#include <stdlib.h>
 
-// mảng task toàn cục
-static sTask SCH_tasks[SCH_MAX_TASKS];
+#define TICK 10
 
-void SCH_Init(void){
-  for (uint32_t i=0;i<SCH_MAX_TASKS;i++){
-    SCH_tasks[i].pTask = 0;
-    SCH_tasks[i].Delay = 0;
-    SCH_tasks[i].Period= 0;
-    SCH_tasks[i].RunMe = 0;
-  }
+sTask SCH_tasks_G[SCH_MAX_TASK];
+uint8_t current_index_task = 0;
+
+void SCH_Init(void) {
+	current_index_task = 0;
+	    for (int i = 0; i < SCH_MAX_TASK; i++) {
+	        SCH_tasks_G[i].pTask  = 0;
+	        SCH_tasks_G[i].Delay  = 0;
+	        SCH_tasks_G[i].Period = 0;
+	        SCH_tasks_G[i].RunMe  = 0;
+	        SCH_tasks_G[i].TaskID = 0;
+	    }
 }
 
-uint8_t SCH_Add_Task(void (*pFunction)(void), uint32_t DELAY, uint32_t PERIOD){
-  for (uint32_t i=0;i<SCH_MAX_TASKS;i++){
-    if (SCH_tasks[i].pTask == 0){
-      SCH_tasks[i].pTask  = pFunction;
-      SCH_tasks[i].Delay  = DELAY;
-      SCH_tasks[i].Period = PERIOD;
-      SCH_tasks[i].RunMe  = 0;
-      return (uint8_t)i;                 // trả về ID task
+void SCH_Add_Task(void (*pFunction)(), uint32_t DELAY, uint32_t PERIOD) {
+	if (current_index_task < SCH_MAX_TASK) {
+		SCH_tasks_G[current_index_task].pTask = pFunction;
+		SCH_tasks_G[current_index_task].Delay = DELAY / TICK;
+		SCH_tasks_G[current_index_task].Period = PERIOD / TICK;
+		SCH_tasks_G[current_index_task].RunMe = 0;
+
+		SCH_tasks_G[current_index_task].TaskID = current_index_task;
+		current_index_task++;
+	}
+}
+void SCH_Update(void) {
+	for (int i = 0; i < current_index_task; i++) {
+		if (SCH_tasks_G[i].Delay > 0) {
+			SCH_tasks_G[i].Delay--;
+		} else {
+			SCH_tasks_G[i].Delay = SCH_tasks_G[i].Period;
+			SCH_tasks_G[i].RunMe += 1;
+		}
+	}
+}
+
+void SCH_Dispatch_Tasks(void) {
+    for (int i = 0; i < current_index_task; i++) {
+        if (SCH_tasks_G[i].RunMe > 0) {
+            SCH_tasks_G[i].RunMe--;
+            SCH_tasks_G[i].pTask();
+
+            if (SCH_tasks_G[i].Period == 0) {
+                SCH_Delete(i);
+                i--;
+            }
+        }
     }
-  }
-  return 0xFF; // đầy
 }
 
-uint8_t SCH_Delete_Task(uint32_t id){
-  if (id>=SCH_MAX_TASKS || SCH_tasks[id].pTask==0) return 1; // không có gì để xóa
-  SCH_tasks[id].pTask = 0;
-  SCH_tasks[id].Delay = 0;
-  SCH_tasks[id].Period= 0;
-  SCH_tasks[id].RunMe = 0;
-  return 0;
-}
+void SCH_Delete(uint32_t ID) {
+    if (ID >= current_index_task) return;
 
-// ISR timer 10ms sẽ gọi hàm này
-void SCH_Update(void){
-  for (uint32_t i=0;i<SCH_MAX_TASKS;i++){
-    if (!SCH_tasks[i].pTask) continue;
-    if (SCH_tasks[i].Delay == 0){
-      if (SCH_tasks[i].RunMe < 255) SCH_tasks[i].RunMe++; // đánh dấu đến hạn
-      if (SCH_tasks[i].Period) SCH_tasks[i].Delay = SCH_tasks[i].Period; // nạp lại
-    } else {
-      SCH_tasks[i].Delay--;
+    for (uint32_t i = ID; i + 1 < current_index_task; i++) {
+        SCH_tasks_G[i] = SCH_tasks_G[i + 1];
     }
-  }
-}
 
-// gọi trong while(1)
-void SCH_Dispatch_Task(void){
-  for (uint32_t i=0;i<SCH_MAX_TASKS;i++){
-    if (SCH_tasks[i].pTask && SCH_tasks[i].RunMe){
-      SCH_tasks[i].RunMe--;
-      (*SCH_tasks[i].pTask)();                 // chạy task
-      if (SCH_tasks[i].Period == 0){           // one-shot -> xóa
-        SCH_Delete_Task(i);
-      }
-    }
-  }
+    current_index_task--;
+
+    // Delete final slot
+    SCH_tasks_G[current_index_task].pTask  = 0;
+    SCH_tasks_G[current_index_task].Delay  = 0;
+    SCH_tasks_G[current_index_task].Period = 0;
+    SCH_tasks_G[current_index_task].RunMe  = 0;
+    SCH_tasks_G[current_index_task].TaskID = 0;
 }

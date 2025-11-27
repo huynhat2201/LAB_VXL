@@ -1,7 +1,7 @@
 /*
  * task.h
  *
- *  Created on: 13 thg 11, 2025
+ *  Created on: Nov 14, 2025
  *      Author: huynh
  */
 
@@ -10,10 +10,10 @@
 
 #include "main.h"
 
-void Task_GetKeyInput(void);
-void Task_TimerRun(void);
-void Task_7SEG_Scan(void);
-void Task_FSM_Traffic(void);
-//void Task_Blink_PA5(void);
-void Task_FSM_Input(void);
+void LED1Blinky();
+void LED2Blinky();
+void LED3Blinky();
+void LED4Blinky();
+void LED5Blinky();
+
 #endif /* INC_TASK_H_ */

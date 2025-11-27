@@ -1,7 +1,7 @@
 /*
  * scheduler.h
  *
- *  Created on: 13 thg 11, 2025
+ *  Created on: Nov 14, 2025
  *      Author: huynh
  */
 
@@ -10,22 +10,23 @@
 
 #include "main.h"
 
-typedef struct {
-  void   (*pTask)(void);
-  uint32_t Delay;     // còn lại bao nhiêu tick đến lần chạy kế
-  uint32_t Period;    // chu kỳ (tick). 0 = one-shot
-  uint8_t  RunMe;     // số lần đến hạn (do ISR tăng)
-} sTask;
+#define SCH_MAX_TASK 40
 
-#ifndef SCH_MAX_TASKS
-#define SCH_MAX_TASKS  16     // đủ 5–10 task Lab3
-#endif
+typedef struct{
+	void (*pTask)(void);
+	uint32_t 	Delay;
+	uint32_t	Period;
+	uint8_t 	RunMe;
+	uint32_t	TaskID;
+}sTask;
 
-// API chính (đúng yêu cầu Lab4)
-void        SCH_Init(void);
-uint8_t     SCH_Add_Task(void (*pFunction)(void), uint32_t DELAY, uint32_t PERIOD);
-uint8_t     SCH_Delete_Task(uint32_t taskID);
-void        SCH_Update(void);          // gọi trong ISR timer 10ms
-void        SCH_Dispatch_Task(void);  // gọi trong while(1)
+void SCH_Init(void);
+
+void SCH_Add_Task( void(*pFunction)() , uint32_t DELAY , uint32_t PERIOD);
+void SCH_Update(void);
+
+void SCH_Dispatch_Tasks(void);
+
+void SCH_Delete(uint32_t);
 
 #endif /* INC_SCHEDULER_H_ */
