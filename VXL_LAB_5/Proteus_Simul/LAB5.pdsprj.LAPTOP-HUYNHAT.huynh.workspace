@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
 <WORKSPACE>
  <FRAME activewindow="0">
-  <PLACEMENT>2c0000000200000003000000ffffffffffffffffffffffffffffffff490000000b000000e6050000ef030000</PLACEMENT>
+  <PLACEMENT>2c00000002000000030000000083ffff0083ffffffffffffffffffff490000000b000000e6050000ef030000</PLACEMENT>
   <WINDOW type="default" module="ISIS"/>
  </FRAME>
  <MODULE name="VSMDEBUG">
@@ -340,7 +340,7 @@
    </POPUP>
    <POPUP w="600" x="708" flags="0000002a" y="620" h="400" pid="100" iid="1">
     <PROPERTIES>
-     <ITEM name="Breakpoint 0">"",800050C,0000,BE81,F7CD,716903936
+     <ITEM name="Breakpoint 0">"",8000506,0000,C050,F7CD,716903936
 </ITEM>
      <ITEM name="Breakpoint 1">"",800050C,0000,BE81,F7CD,716903936
 </ITEM>
@@ -376,7 +376,7 @@
    <POPUP w="194" x="768" flags="00000008" y="880" h="281" pid="191" iid="1">
     <PROPERTIES/>
    </POPUP>
-   <POPUP w="450" x="666" flags="00008023" y="479" h="453" pid="0" iid="2">
+   <POPUP w="450" x="393" flags="00008023" y="353" h="453" pid="0" iid="2">
     <PROPERTIES>
      <ITEM name="AutoEcho">0</ITEM>
      <ITEM name="HexMode">0</ITEM>

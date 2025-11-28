@@ -15,7 +15,7 @@ uint8_t command_parser_status = INIT_COMMAND_PARSER;
 void command_parser_fsm(void){
     switch (command_parser_status) {
     case INIT_COMMAND_PARSER:
-        if (temp != '\r' && temp != '\n') {
+        if (temp == '!' && command_index == 0) {
             command_index = 0;
             if (command_index < MAX_BUFFER_SIZE - 1) {
                 command_data[command_index] = temp;
@@ -26,7 +26,20 @@ void command_parser_fsm(void){
         break;
 
     case START:
-        if (temp == '\r' || temp == '\n') {
+    	// Start again new instruction
+    	if (temp == '!') {
+    		command_index = 0;
+    		if (command_index < MAX_BUFFER_SIZE -1){
+    			command_data[command_index] = temp;
+    			command_index++;
+    		}
+    	}
+
+    	else if (temp == '#') {
+    		if (command_index < MAX_BUFFER_SIZE - 1) {
+    			command_data[command_index] = '#';
+    			command_index++;
+    		}
             command_data[command_index] = '\0';  // latch string
 
             // default
